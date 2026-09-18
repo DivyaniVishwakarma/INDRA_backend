@@ -9,9 +9,28 @@ from app.api.historical import router as historical_router
 
 app = FastAPI(title="INDRA Urban Flood Intelligence", version="2.0")
 app.add_middleware(GZipMiddleware, minimum_size=1000)
-app.add_middleware(CORSMiddleware,
-    allow_origins=[x.strip() for x in settings.cors_origins.split(",") if x.strip()],
-    allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
+origins = [x.strip() for x in settings.cors_origins.split(",") if x.strip()]
+extra_origins = [
+    "https://indra-frontend-seven.vercel.app",
+    "https://indra-frontend-seven.vercel.app/",
+    "http://indra-frontend-seven.vercel.app",
+    "http://indra-frontend-seven.vercel.app/",
+    "https://indra-frontend-rmjmdc8n5-urbanresq.vercel.app",
+    "https://indra-frontend-rmjmdc8n5-urbanresq.vercel.app/",
+    "http://indra-frontend-rmjmdc8n5-urbanresq.vercel.app",
+    "http://indra-frontend-rmjmdc8n5-urbanresq.vercel.app/",
+]
+for origin in extra_origins:
+    if origin not in origins:
+        origins.append(origin)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 app.include_router(router)
 app.include_router(live_router, prefix="/api")
 app.include_router(historical_router, prefix="/api")

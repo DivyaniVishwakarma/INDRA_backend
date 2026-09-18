@@ -3,7 +3,13 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Settings(BaseSettings):
     database_url: str = "postgresql+psycopg://indra:indra@localhost:5432/indra"
     redis_url: str = "redis://localhost:6379/0"
-    cors_origins: str = "http://localhost:5173"
+    cors_origins: str = (
+        "http://localhost:5173,"
+        "https://indra-frontend-seven.vercel.app,"
+        "http://indra-frontend-seven.vercel.app,"
+        "https://indra-frontend-rmjmdc8n5-urbanresq.vercel.app,"
+        "http://indra-frontend-rmjmdc8n5-urbanresq.vercel.app"
+    )
     bmc_gis_base_url: str = "https://prsrvgisapp.mcgm.gov.in/server/rest/services/mcgm/MCGMGIS_Departments_Master_All_Layers_WGS/MapServer"
     imd_current_api_url: str = ""
     imd_station_ids: str = ""
